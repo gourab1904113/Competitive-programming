@@ -1,0 +1,208 @@
+///Hare krishna
+
+/// Cases possible
+/// reverse order
+/// binary search
+/// Simple broute force
+/// check constraints
+/// Can sort the queries?
+/// check index 0 and end index
+
+
+///order_of_key(k): number of element less than k
+///find_by_order(k): k-th element in set start from 0
+/// set.lower_bound(), set.upper_bound()
+
+
+
+#include<bits/stdc++.h>
+using namespace std;
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+
+
+typedef long long int ll;
+#define ordered_set tree<ll, null_type,less<ll>, rb_tree_tag,tree_order_statistics_node_update>
+
+
+
+
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+
+#define db double
+#define pii pair<ll,ll>
+#define f(i,a,b) for(ll i=a;i<b;i++)
+#define fi(i,a,b,c) for(ll i=a;i<b;i+=c)
+#define fr(i,a,b) for(ll i=a;i>=b;i--)
+#define fri(i,a,b,c) for(ll i=a;i>=b;i-=c)
+#define pb push_back
+#define ss second
+#define ff first
+#define in insert
+#define sq(x)  (x*x)
+#define all(a)  a.begin(),a.end()
+#define nl '\n'
+#define mnpq  priority_queue <pii, vector<pii>, greater<pii> >
+
+ll gcd(ll a,ll b){
+       if(b==0)return a;
+       return gcd(b,a%b);
+}
+int getRandom(int L,int R)
+{
+    return rng()%(R-L+1) + L;
+}
+
+ll lcm(ll a,ll b){
+       return ((a)/gcd(a,b))*b;
+}
+
+ll bigmod(ll a,ll n,ll md){
+       if(n==0){
+           return 1;
+       }
+       if(n==1){
+           return a%md;
+       }
+       ll d= bigmod(a,n/2,md);
+       if(n%2==0){
+           return (d*d)%md;
+       }
+       else{
+           return ( ((d*d)%md) * (a%md) )%md;
+       }
+}
+
+bool sortbysec(const pair<int,int> &a,
+            const pair<int,int> &b)
+{
+
+    if(a.first==b.first){
+         return (a.second > b.second);
+    }
+
+    return (a.first< b.first);
+}
+
+
+const ll  N = 300005;
+const ll mod = 998244353;
+
+const ll neginf= -1e18;
+const ll inf = 1e18;
+const ll eps= 1e-9;
+
+class TrieNode{
+public:
+      bool endOfWord;
+      TrieNode* child[26];
+
+      TrieNode(){
+           for(int i=0;i<26;i++){
+                child[i]=nullptr;
+
+           }
+           endOfWord=false;
+      }
+};
+
+class Trie{
+
+  private:
+      TrieNode* root;
+
+  public:
+     Trie(){
+         root= new TrieNode();
+     }
+
+     void Insert(string w){
+
+          TrieNode* node=root;
+
+          for(char ch:w){
+
+               int index=ch-'a';
+
+               if(!node->child[index]){
+
+                   node->child[index]= new TrieNode();
+
+               }
+               node = node->child[index];
+          }
+
+          node->endOfWord=true;
+     }
+
+     void Delete(string w){
+         TrieNode* node= root;
+         for(char ch:w){
+
+              int index=ch-'a';
+              if(!node->child[index]){
+                  return;
+              }
+              node=node->child[index];
+         }
+
+         node->endOfWord=false;
+     }
+
+     bool Search(string w){
+
+          TrieNode* node= root;
+
+          for(char ch:w){
+
+              int index= ch-'a';
+
+
+                if(!node->child[index]){
+
+                     return false;
+                }
+
+                node=node->child[index];
+
+          }
+
+          return node->endOfWord;
+     }
+
+
+};
+
+int main(){
+
+       ios_base::sync_with_stdio(false);
+       cin.tie(NULL);
+       cout.tie(NULL);
+
+       Trie obj;
+
+       obj.Insert("gourab");
+
+       obj.Insert("gourabchandra");
+
+       obj.Insert("gourabchandrabiswas");
+
+       obj.Insert("bidda");
+       obj.Insert("gouri");
+
+       obj.Insert("biddabiswas");
+       obj.Insert("gourirani");
+
+
+       cout<<"Search "<<endl;
+
+       cout<<obj.Search("gouri")<<endl;
+       cout<<obj.Search("biddabiswas")<<endl;
+       obj.Delete("biddabiswas");
+       cout<<obj.Search("biddabiswas")<<endl;
+       cout<<obj.Search("gourirani")<<endl;
+       cout<<obj.Search("gourabbiswas")<<endl;
+
+
+}
